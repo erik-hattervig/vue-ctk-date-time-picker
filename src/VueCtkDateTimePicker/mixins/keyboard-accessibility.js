@@ -6,7 +6,8 @@ import moment from 'moment'
 */
 export default {
   props: {
-    noKeyboard: { type: Boolean, default: false }
+    noKeyboard: { type: Boolean, default: false },
+    enabledManualInput: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -56,7 +57,7 @@ export default {
           } else if (e.keyCode === 27) {
             this.$emit('close')
           }
-          if ('activeElement' in document) document.activeElement.blur()
+          if ('activeElement' in document && !this.enabledManualInput) document.activeElement.blur()
         } catch (err) {
           window.console.error('An error occured while switch date', e)
         }

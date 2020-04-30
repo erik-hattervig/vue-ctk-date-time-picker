@@ -54,7 +54,9 @@ export default {
   },
   noValueToCustomElem: { type: Boolean, default: false },
   behaviour: { type: Object, default: () => ({}) },
-  noKeyboard: { type: Boolean, default: false },
+  noKeyboard: { type: Boolean, default: true },
+  enabledManualInput: { type: Boolean, default: false },
+  enabledMasking: { type: Boolean, default: false },
   right: { type: Boolean, default: false },
   noClearButton: { type: Boolean, default: false }
 }

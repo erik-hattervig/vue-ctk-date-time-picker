@@ -217,6 +217,8 @@
                 :custom-shortcuts="demo.options.customShortcuts"
                 :persistent="demo.options.persistent"
                 :no-keyboard="demo.options.noKeyboard"
+                :enabled-manual-input="demo.options.enabledManualInput"
+                :enabled-masking="demo.options.enabledMasking"
                 :no-value-to-custom-elem="demo.options.noValueToCustomElem"
                 :disabled-weekly="demo.options.disabledWeekly"
                 :right="demo.options.right"
@@ -256,7 +258,7 @@
         booleanOptions: [
           'noHeader', 'autoClose', 'error', 'dark', 'overlay', 'noWeekendDays', 'noShortcuts',
           'noButton', 'onlyDate', 'range', 'onlyTime', 'inline', 'persistent', 'disabled', 'noButtonNow', 'noValueToCustomElem',
-          'noKeyboard', 'right', 'noClearButton', 'noLabel'
+          'noKeyboard', 'right', 'noClearButton', 'noLabel', 'enabledManualInput', 'enabledMasking'
         ],
         stringOptions: [
           'id', 'label', 'hint', 'color', 'buttonColor', 'position', 'format', 'formatted', 'outputFormat',
@@ -269,6 +271,28 @@
           'minuteInterval', 'firstDayOfWeek'
         ],
         demoComponents: [
+          {
+            id: '3.1',
+            title: 'Date Picker - Masked',
+            description: 'Date selector - Using Mask - format: "MM-DD-YYYY" - formatted: "MM-DD-YYYY"',
+            editOption: false,
+            initial: '14-01-2019',
+            value: '14-01-2019',
+            options: {
+              onlyDate: true,
+              noButtonNow: true,
+              color: 'coral',
+              inputSize: 'lg',
+              buttonColor: 'green',
+              id: 'DatePicker',
+              format: 'DD-MM-YYYY',
+              formatted: 'MM-DD-YYYY',
+              right: true,
+              noLabel: true,
+              enabledManualInput: true,
+              enabledMasking: true
+            }
+          },
           {
             id: '1',
             title: 'Date Time Picker',

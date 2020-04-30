@@ -13,6 +13,23 @@
     @click="focusInput"
   >
     <input
+      v-if="enabledMasking && enabledManualInput"
+      :id="$attrs.id"
+      ref="CustomInput"
+      v-imask="maskOptions"
+      :value="value"
+      :placeholder="label"
+      :style="[borderStyle]"
+      class="field-input"
+      :class="{ 'no-clear-button': noClearButton }"
+      @keydown="keyDownInput($event)"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
+      @click="$emit('click')"
+      @complete="onComplete"
+    >
+    <input
+      v-else
       :id="$attrs.id"
       ref="CustomInput"
       v-bind="$attrs"
@@ -22,7 +39,8 @@
       type="text"
       class="field-input"
       :class="{ 'no-clear-button': noClearButton }"
-      readonly
+      :readonly="!enabledManualInput"
+      @keydown="keyDownInput($event)"
       @focus="$emit('focus')"
       @blur="$emit('blur')"
       @click="$emit('click')"
@@ -55,11 +73,17 @@
 
 <script>
   import CustomButton from './../CustomButton'
+  import moment from 'moment'
+  import mask from './mask'
+  import { IMaskDirective } from 'vue-imask'
 
   export default {
     name: 'CustomInput',
     components: {
       CustomButton
+    },
+    directives: {
+      imask: IMaskDirective
     },
     inheritAttrs: false,
     props: {
@@ -72,7 +96,11 @@
       color: { type: String, default: null },
       dark: { type: Boolean, default: false },
       inputSize: { type: String, default: null },
-      noClearButton: { type: Boolean, default: false }
+      noClearButton: { type: Boolean, default: false },
+      noKeyboard: { type: Boolean, default: false },
+      enabledManualInput: { type: Boolean, default: false },
+      enabledMasking: { type: Boolean, default: false },
+      formatted: { type: String, default: null }
     },
     computed: {
       borderStyle () {
@@ -97,12 +125,34 @@
        */
       isDisabled () {
         return typeof this.$attrs.disabled !== 'undefined' && this.$attrs.disabled !== false
+      },
+      maskOptions () {
+        return {
+          ...mask,
+          pattern: this.formatted,
+          format: date => moment(date).format(this.formatted),
+          parse: str => moment(str, this.formatted)
+        }
       }
     },
     methods: {
       focusInput () {
         this.$refs.CustomInput.focus()
         this.$emit('focus')
+      },
+      keyDownInput (event) {
+        /*
+          keyCode 13: enter
+          keyCode 27: escape
+        */
+        if (this.noKeyboard && (event.keyCode === 13 || event.keyCode === 27)) {
+          this.$refs['CustomInput'].blur()
+          this.$emit('close')
+        }
+      },
+      onComplete () {
+        this.$refs['CustomInput'].blur()
+        this.$emit('close')
       }
     }
   }

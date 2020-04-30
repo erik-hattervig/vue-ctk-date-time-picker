@@ -51,6 +51,7 @@
             :shortcut="shortcut"
             :custom-shortcuts="customShortcuts"
             :no-keyboard="noKeyboard"
+            :enabled-manual-input="enabledManualInput"
             :locale="locale"
             @change-month="changeMonth"
             @change-year-month="changeYearMonth"
@@ -140,6 +141,7 @@
       shortcut: { type: String, default: null },
       customShortcuts: { type: Array, default: null },
       noKeyboard: { type: Boolean, default: false },
+      enabledManualInput: { type: Boolean, default: false },
       right: { type: Boolean, default: false },
       behaviour: { type: Object, default: () => ({}) }
     },
